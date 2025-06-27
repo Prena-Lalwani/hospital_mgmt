@@ -7,11 +7,12 @@ ILLNESS_PRIORITY = {
 }
 
 class Patient:
-    def __init__(self, name, age, illness):
+    def __init__(self, name, age, disease, priority):
         self.name = name
         self.age = age
-        self.illness = illness
-        self.priority = ILLNESS_PRIORITY[illness]
+        self.disease = disease
+        self.priority = priority
 
     def __str__(self):
-        return f"{self.name} | Age: {self.age} | Illness: {self.illness} | Priority: {self.priority}"
+        return f"{self.name} | Age: {self.age} | Issue: {self.disease} | Priority: {self.priority}"
+

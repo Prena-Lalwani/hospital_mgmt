@@ -2,6 +2,7 @@ from patient import Patient, ILLNESS_PRIORITY
 from queue_manager import PatientQueue
 
 pq = PatientQueue()
+pq.load_from_file()
 
 def menu():
     while True:
@@ -17,18 +18,15 @@ def menu():
             name = input("Name: ")
             age = int(input("Age: "))
 
-            # 🧠 Show illness options
-            print("\nSelect Illness:")
+            print("Select illness:")
             illnesses = list(ILLNESS_PRIORITY.keys())
-            for idx, illness in enumerate(illnesses, 1):
-                print(f"{idx}. {illness}")
-            
-            illness_choice = int(input("Enter illness number: "))
-            illness = illnesses[illness_choice - 1]
+            for i, illness in enumerate(illnesses, start=1):
+                print(f"{i}. {illness}")
+            illness_choice = int(input("Choice (1-5): "))
+            disease = illnesses[illness_choice - 1]
+            priority = ILLNESS_PRIORITY[disease]
 
-            patient = Patient(name, age, illness)
-            pq.add_patient(patient)
-            print(f"✅ {patient.name} added successfully!")
+            pq.add_patient(Patient(name, age, disease, priority))
 
         elif choice == '2':
             pq.show_patients()
@@ -36,15 +34,16 @@ def menu():
         elif choice == '3':
             discharged = pq.discharge_patient()
             if discharged:
-                print(f"✅ {discharged.name} has been discharged.")
+                print(f"{discharged.name} has been discharged.")
             else:
-                print("⚠️ No patients to discharge.")
+                print("No patients to discharge.")
 
         elif choice == '4':
-            print("👋 Goodbye!")
+            pq.save_to_file()
+            print("✅ Data saved. Goodbye.")
             break
 
         else:
-            print("❌ Invalid choice. Try again.")
+            print("Invalid choice. Try again.")
 
 menu()
