@@ -1,4 +1,4 @@
-from patient import Patient
+from patient import Patient, ILLNESS_PRIORITY
 from queue_manager import PatientQueue
 
 pq = PatientQueue()
@@ -16,9 +16,19 @@ def menu():
         if choice == '1':
             name = input("Name: ")
             age = int(input("Age: "))
-            disease = input("Disease: ")
-            priority = int(input("Priority (1-5): "))
-            pq.add_patient(Patient(name, age, disease, priority))
+
+            # 🧠 Show illness options
+            print("\nSelect Illness:")
+            illnesses = list(ILLNESS_PRIORITY.keys())
+            for idx, illness in enumerate(illnesses, 1):
+                print(f"{idx}. {illness}")
+            
+            illness_choice = int(input("Enter illness number: "))
+            illness = illnesses[illness_choice - 1]
+
+            patient = Patient(name, age, illness)
+            pq.add_patient(patient)
+            print(f"✅ {patient.name} added successfully!")
 
         elif choice == '2':
             pq.show_patients()
@@ -26,15 +36,15 @@ def menu():
         elif choice == '3':
             discharged = pq.discharge_patient()
             if discharged:
-                print(f"{discharged.name} discharged!")
+                print(f"✅ {discharged.name} has been discharged.")
             else:
-                print("No patients.")
+                print("⚠️ No patients to discharge.")
 
         elif choice == '4':
-            print("Goodbye.")
+            print("👋 Goodbye!")
             break
 
         else:
-            print("Invalid choice.")
+            print("❌ Invalid choice. Try again.")
 
 menu()
