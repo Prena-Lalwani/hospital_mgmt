@@ -10,7 +10,9 @@ def menu():
         print("1. Add Patient")
         print("2. View Waiting List")
         print("3. Discharge Patient")
-        print("4. Exit")
+        print("4. Search Patient by Name")
+        print("5. Exit")
+
 
         choice = input("Enter choice: ")
 
@@ -39,9 +41,14 @@ def menu():
                 print("No patients to discharge.")
 
         elif choice == '4':
+            search_name = input("Enter name to search: ")
+            pq.search_by_name(search_name)
+
+        elif choice == '5':
             pq.save_to_file()
             print("✅ Data saved. Goodbye.")
             break
+        
 
         else:
             print("Invalid choice. Try again.")

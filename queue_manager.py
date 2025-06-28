@@ -25,19 +25,31 @@ class PatientQueue:
             with open(filename, mode="w", newline="") as f:
                 writer = csv.writer(f)
                 for p in self.queue:
-                    writer.writerow([p.name, p.age, p.disease])
+                    writer.writerow([p.name, p.age, p.disease, p.priority])
         except Exception as e:
             print(f"❌ Failed to save file: {e}")
+
+
+    def search_by_name(self, name):
+        matches = [p for p in self.queue if p.name.lower() == name.lower()]
+        if matches:
+            print(f"\n🔍 Found {len(matches)} match(es):")
+            for p in matches:
+                print(p)
+        else:
+            print("❌ No patient found with that name.")
 
     def load_from_file(self, filename="patients.csv"):
         try:
             with open(filename, mode="r") as f:
                 reader = csv.reader(f)
                 for row in reader:
-                    name, age, disease = row
-                    priority = ILLNESS_PRIORITY.get(disease, 5)
-                    self.add_patient(Patient(name, int(age), disease, priority))
+                    if len(row) == 4:
+                        name, age, disease, priority = row
+                        self.add_patient(Patient(name, int(age), disease, int(priority)))
+            print("✅ Patient data loaded from file.")
         except FileNotFoundError:
             print("No saved data found. Starting fresh.")
         except Exception as e:
             print(f"❌ Failed to load file: {e}")
+

@@ -15,4 +15,3 @@ class Patient:
 
     def __str__(self):
         return f"{self.name} | Age: {self.age} | Issue: {self.disease} | Priority: {self.priority}"
-
