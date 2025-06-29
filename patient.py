@@ -15,3 +15,8 @@ class Patient:
 
     def __str__(self):
         return f"{self.name} | Age: {self.age} | Issue: {self.disease} | Priority: {self.priority}"
+    
+    def __lt__(self, other):
+        # Just compare names to break ties when priority is the same
+        return self.name < other.name
+    
